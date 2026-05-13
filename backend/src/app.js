@@ -1,6 +1,7 @@
 import express from "express";
 import {register} from "./controllers/user.controller.js";
-import userRoute from "./routes/user.route.js"
+import userRoute from "./routes/user.route.js";
+import expenseRoute from "./routes/expense.route.js";
 
 
 const app = express();
@@ -12,6 +13,8 @@ const router = express.Router()
 
 // Routes
 app.use("/api/user", userRoute)
+
+app.use("/api/expense", expenseRoute)
 
 // Create Server
 

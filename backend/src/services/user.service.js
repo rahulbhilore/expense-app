@@ -8,8 +8,6 @@ import { Op } from "sequelize";
 const registerUser = async ({ name, email, password }) => {
   const hashpass = await bcrypt.hash(password, 10);
 
-  console.log("pass: ", hashpass);
-
   const user = await User.create({
     name,
     email,

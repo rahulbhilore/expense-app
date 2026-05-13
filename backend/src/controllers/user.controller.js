@@ -7,6 +7,7 @@ import {
 } from "../services/user.service.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import { sendSuccess, sendError } from "../utils/responseHandler.js";
 
 dotenv.config();
 
@@ -14,25 +15,14 @@ const register = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
-    const userData = {
-      name,
-      email,
-      password,
-    };
-
-    console.log("data", req);
+    const userData = { name, email, password };
 
     const user = await registerUser(userData);
 
-    res.status(201).json({
-      success: true,
-      message: user,
-    });
+    return sendSuccess(res, 200, "User Created Successfully", user);
   } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: err.message,
-    });
+    console.log("User Register Error: ", err);
+    return sendError(res, 500, "Something Went Wrong");
   }
 };
 
@@ -46,16 +36,10 @@ const login = async (req, res) => {
       expiresIn: "2h",
     });
 
-    res.status(200).json({
-      token,
-      status: "Login Successful",
-      email: user,
-    });
+    sendSuccess(res, 200, "User Logedin Successful", token);
   } catch (err) {
-    res.status(401).json({
-      // status: "Invalid Credentials",
-      // message: err.message,
-    });
+    console.log("User Login Error: ", err);
+    return sendError(res, 500, "Email not Exists");
   }
 };
 
@@ -67,54 +51,34 @@ const forgot = async (req, res) => {
     };
     console.log("userData", userData);
     const newPass = await forgotPass(userData);
-    res.status(200).json({
-      status: true,
-      message: "Password updated successfully",
-      data: newPass,
-    });
+    return sendSuccess(res, 200, "Password Changed Successfully", newPass);
   } catch (error) {
-    console.log(error);
-    res.status(401).json({
-      status: false,
-      message: "Email not exist",
-    });
+    console.log("User Register Error: ", error);
+    return sendError(res, 500, "Something Went Wrong");
   }
 };
 
 const listUsers = async (req, res) => {
   try {
     const user = await fetchUser();
-    res.status(200).json({
-      status: true,
-      message: "User Fetched Successful",
-      data: user,
-    });
+    return sendSuccess(res, 200, "User Fetched Successfully", user);
   } catch (error) {
-    res.status(404).json({
-      status: false,
-      message: error.message,
-    });
+    console.log("User Register Error: ", error);
+    return sendError(res, 500, "No users found");
   }
 };
 
 const userSearch = async (req, res) => {
   try {
-    const data = req.body.query 
+    const data = req.body.query;
 
-    console.log("query: ", data)
+    console.log("query: ", data);
 
     const result = await searchUser(data);
-    res.status(200).json({
-      status: true,
-      message: "User Found",
-      data: result
-    });
+    return sendSuccess(res, 200, "User Found Successfully", result);
   } catch (error) {
-    console.log("search user error: ", error.message);
-    res.status(400).json({
-      status: false,
-      message: "User not found",
-    });
+    console.log("User Register Error: ", error);
+    return sendError(res, 500, "User not found");
   }
 };
 
