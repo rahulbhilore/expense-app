@@ -36,7 +36,7 @@ const login = async (req, res) => {
       expiresIn: "2h",
     });
 
-    sendSuccess(res, 200, "User Logedin Successful", token);
+    sendSuccess(res, 200, "User Logedin Successful", {user, token});
   } catch (err) {
     console.log("User Login Error: ", err);
     return sendError(res, 500, "Email not Exists");

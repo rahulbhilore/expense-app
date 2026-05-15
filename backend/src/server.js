@@ -17,7 +17,7 @@ sequelize
   });
 
 sequelize
-  .sync({})
+  .sync({alert: true})
   .then(() => {
     console.log("Database Synced");
   })
