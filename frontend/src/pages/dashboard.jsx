@@ -14,6 +14,8 @@ const Dashboard = () => {
   const [category, setCategory] = useState("");
   const [date, setDate] = useState("");
   const [expenseBy, setExpenseBy] = useState("");
+  const [search, setSearch]= useState("")
+  const [searchResult, setSearchResult]= useState([])
 
   const handlesetExpense = async () => {
     const response = await axiosInstance.post("/expense/create", {
@@ -26,9 +28,17 @@ const Dashboard = () => {
     });
 
     toast.success("Expense Added Successfully");
-    navigate("/navbar");
+    // navigate("/navbar");
 
     dispatch(addExpense(response.data.data));
+  };
+
+  const searchExpense = async () => {
+    const expenseResult = await axiosInstance.get(`expense/search?title=${search}`)
+
+    setSearchResult(expenseResult.data.data);
+
+    toast.success("data fetched successfully");
   };
 
   return (
@@ -83,22 +93,80 @@ const Dashboard = () => {
 
         {/* PAGE CONTENT */}
         <div className="p-8">
+          {/* SEARCH SECTION */}
+          <div className="bg-white rounded-3xl shadow-lg p-6 mb-8">
+            <div className="flex flex-col md:flex-row gap-4">
+              <input
+                type="text"
+                placeholder="Search expense by title..."
+                value={search}
+                onChange={(e)=>setSearch(e.target.value)}
+                className="flex-1 border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+
+              <button onClick={searchExpense} className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-semibold transition">
+                Search
+              </button>
+            </div>9+
+          </div>
+
+          
+
+          {/* SEARCH RESULTS */}
+           <div className="space-y-4 mb-10">
+            {searchResult.map((expense) => (
+              <div
+                key={expense.id}
+                className="bg-white rounded-2xl shadow-md p-5"
+              >
+                <div className="flex justify-between items-center">
+                  <div>
+                    <h2 className="text-xl font-bold text-gray-800">
+                      {expense.title}
+                    </h2>
+
+                    <p className="text-gray-500">
+                      {expense.description}
+                    </p>
+
+                    <p className="text-sm text-gray-400 mt-1">
+                      {expense.category} • {expense.expenseBy}
+                    </p>
+                  </div>
+
+                  <div className="text-right">
+                    <p className="text-2xl font-bold text-green-600">
+                      ₹{expense.amount}
+                    </p>
+
+                    <p className="text-gray-400 text-sm">
+                      {expense.date}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+
+
+          {/* STATS CARDS */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            {/* CARD 1 */}
             <div className="bg-white rounded-2xl shadow-md p-6">
               <h3 className="text-gray-500 text-sm mb-2">Total Expenses</h3>
+
               <p className="text-3xl font-bold text-gray-800">₹25,000</p>
             </div>
 
-            {/* CARD 2 */}
             <div className="bg-white rounded-2xl shadow-md p-6">
               <h3 className="text-gray-500 text-sm mb-2">This Month</h3>
+
               <p className="text-3xl font-bold text-gray-800">₹12,000</p>
             </div>
 
-            {/* CARD 3 */}
             <div className="bg-white rounded-2xl shadow-md p-6">
               <h3 className="text-gray-500 text-sm mb-2">Total Records</h3>
+
               <p className="text-3xl font-bold text-gray-800">15</p>
             </div>
           </div>
@@ -190,7 +258,6 @@ const Dashboard = () => {
                   <option>Sanjay</option>
                   <option>Pushpa</option>
                   <option>Nayna</option>
-                  <option>Other</option>
                 </select>
               </div>
             </div>
@@ -205,17 +272,14 @@ const Dashboard = () => {
                 rows="4"
                 placeholder="Enter description"
                 value={description}
-                onChange={(e) => setDescription(e.target.value)}
+              onChange={(e)=>setDescription(e.target.value)}
                 className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
               ></textarea>
             </div>
 
             {/* BUTTON */}
             <div className="mt-8 flex justify-end">
-              <button
-                onClick={handlesetExpense}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-semibold transition"
-              >
+              <button onClick={handlesetExpense} className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-semibold transition">
                 Add Expense
               </button>
             </div>

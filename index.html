@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Register Form</title>
+  </head>
+
+  <body>
+    <div style="background-color: aqua; padding: 20px; display: flex; justify-content: center; align-items: center; margin: 5px; border: 5px solid black ; border-radius: 20px;" class="register-form-container">
+      <form action="/register">
+        <!-- Name -->
+        <div class="name-group">
+          <label style="color: red; background-color:black ; height: 3000px; width: 20px; border-radius: 2px; padding: 2px; margin: 10px; border: 2px solid blue;" for="name"> Name </label>
+
+          <input
+            id="name"
+            name="name"
+            type="text"
+            placeholder="Enter Full Name"
+            required
+          />
+        </div>
+
+        <br />
+
+        <!-- Email -->
+        <div class="email-group">
+          <label for="email"> Email </label>
+
+          <input
+            id="email"
+            name="email"
+            type="email"
+            placeholder="Enter Email"
+            required
+          />
+        </div>
+
+        <br />
+
+        <!-- Password -->
+        <div class="password-group">
+          <label for="password"> Password </label>
+
+          <input
+            id="password"
+            name="password"
+            type="password"
+            placeholder="Enter Password"
+            required
+          />
+        </div>
+
+        <br />
+
+        <!-- Confirm Password -->
+        <div class="confirm-password-group">
+          <label for="confirmPassword"> Confirm Password </label>
+
+          <input
+            id="confirmPassword"
+            name="confirmPassword"
+            type="password"
+            placeholder="Confirm Password"
+            required
+          />
+        </div>
+
+        <br />
+
+        <!-- Gender -->
+        <div class="gender-group">
+          <p>Gender</p>
+
+          <label for="male">
+            <input id="male" name="gender" type="radio" value="male" />
+
+            Male
+          </label>
+
+          <label for="female">
+            <input id="female" name="gender" type="radio" value="female" />
+
+            Female
+          </label>
+        </div>
+
+        <br />
+
+        <!-- Skills -->
+        <div class="skills-group">
+          <p>Skills</p>
+
+          <label for="aws">
+            <input id="aws" name="skills" type="checkbox" value="aws" />
+
+            AWS
+          </label>
+
+          <label for="azure">
+            <input id="azure" name="skills" type="checkbox" value="azure" />
+
+            Azure
+          </label>
+
+          <label for="devops">
+            <input id="devops" name="skills" type="checkbox" value="devops" />
+
+            DevOps
+          </label>
+        </div>
+
+        <br />
+
+        <!-- Country -->
+        <div class="country-group">
+          <label for="country"> Country </label>
+
+          <select id="country" name="country">
+            <option value="india">India</option>
+
+            <option value="usa">USA</option>
+
+            <option value="canada">Canada</option>
+          </select>
+        </div>
+
+        <br />
+
+        <!-- Message -->
+        <div class="message-group">
+          <label for="message"> Message </label>
+
+          <textarea
+            id="message"
+            name="message"
+            placeholder="Enter Your Message"
+          ></textarea>
+        </div>
+
+        <br />
+
+        <!-- Submit Button -->
+        <div class="submit-button-group">
+          <button type="submit">Submit</button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

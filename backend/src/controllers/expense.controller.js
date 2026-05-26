@@ -3,6 +3,7 @@ import {
   getExpenseService,
   updateExpenseService,
   deleteExpenseService,
+  searchExpenseService,
 } from "../services/expense.service.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
@@ -80,4 +81,22 @@ const deleteExpense = async (req, res) => {
   }
 };
 
-export { createExpense, getExpense, updateExpense, deleteExpense };
+const searchExpense = async (req, res) => {
+ 
+ try{
+  const {title} = req.query;
+
+  console.log("data>>>>>>>", title)
+
+    const result = await searchExpenseService(title)
+
+      return sendSuccess(res , 200, "Data fetched successfully", result)
+
+ }catch(error){
+    console.log("Search Expense Error", error)
+      sendError(res, 500 , "Data not found")
+ }
+
+};
+
+export { createExpense, getExpense, updateExpense, deleteExpense, searchExpense };

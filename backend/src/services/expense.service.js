@@ -1,6 +1,7 @@
 import User from "../models/user.model.js";
 import Expense from "../models/expense.model.js";
 import dotenv from "dotenv";
+import { Op } from "sequelize";
 
 dotenv.config();
 
@@ -70,16 +71,38 @@ const updateExpenseService = async ({
   return updateExpense;
 };
 
+const deleteExpenseService = async (id) => {
+  const deleteExpense = await Expense.destroy({ where: { id } });
 
-const deleteExpenseService = async (id)=>{
+  if (id.length === 0) {
+    throw new Error();
+  }
 
-    const deleteExpense = await Expense.destroy({where: {id}})
+  return deleteExpense;
+};
 
-    if(id.length === 0){
-        throw new Error
-    }
+const searchExpenseService = async (title) => {
+  console.log("title >>>>>", title);
 
-    return deleteExpense
-}
+  const searchExpense = await Expense.findAll({
+    where: {
+      title: {
+      [Op.like]: `%${title}%`,
+      }
+    },
+  });
+console.log("rrrrrrrrr", searchExpense)
+  if (searchExpense.length == 0) {
+    throw new Error("no data");
+  }
 
-export { createExpenseService, getExpenseService, updateExpenseService, deleteExpenseService };
+  return searchExpense;
+};
+
+export {
+  createExpenseService,
+  getExpenseService,
+  updateExpenseService,
+  deleteExpenseService,
+  searchExpenseService,
+};
